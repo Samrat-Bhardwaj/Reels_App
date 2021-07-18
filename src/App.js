@@ -1,25 +1,48 @@
-import logo from './logo.svg';
-import './App.css';
-
+import React from 'react'
+// import {Switch,Route,BrowserRouter, Redirect} from "react-router-dom"
+import Feed from "./components/Feed"
+import Login from "./components/Login"
+import SignUp from "./components/SignUp"
+import { AuthContext, AuthProvider } from "./contexts/AuthContext";
+import { Switch, Route, BrowserRouter as Router, Redirect } from "react-router-dom"
+import { useContext } from 'react';
+var isSignedUp=  true ;
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+    <AuthProvider>
+        <Switch>
+          <Route path="/login" component={Login}></Route>
+          <Route path="/signup" component={SignUp}></Route>
+          <PrivateRoute path="/" exact Comp={Feed}></PrivateRoute>
+          </Switch>
+            </AuthProvider>
+        </Router>
+  )
+    
+}
+
+function PrivateRoute(parentProps){
+// console.log(parentProps);
+// console.log(isSignedUp);
+let {currentUser} = useContext(AuthContext);
+
+  const Component=parentProps.Comp;
+  console.log(Component);
+  return (
+    <Route {...parentProps} render={
+      (parentProps) => {
+        // isSignedUp===true ?
+        if(currentUser!=null){
+          console.log("fnj");
+         return  <Component {...parentProps}></Component>
+        } else {
+          return <Redirect to="/login"></Redirect>
+        }  
+      }
+    }></Route>
+  )
+    
 }
 
 export default App;

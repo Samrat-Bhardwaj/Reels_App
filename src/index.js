@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import IntersectionDemo from "./intersectObserver/IntersectionDemo";
 
 ReactDOM.render(
   <React.StrictMode>
     <App />
+    {/* <IntersectionDemo></IntersectionDemo> */}
   </React.StrictMode>,
   document.getElementById('root')
 );
